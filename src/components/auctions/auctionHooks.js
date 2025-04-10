@@ -76,7 +76,7 @@ export function useFavorites(userId) {
     if (userId) {
       fetchUserFavorites(userId)
         .then((response) => {
-          setData(response.data.favorites);
+          setData(response.data.favorites || []);
         })
         .catch(() => {
           console.log("error fetching favorites");

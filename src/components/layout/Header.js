@@ -4,9 +4,9 @@ import { useUser } from "../auth/AuthProvider";
 export function Header() {
   const { isLoggedIn } = useUser();
   return (
-    <header className="p-4 bg-gray-100 flex justify-between items-center">
+    <header className="p-4 bg-yellow-200 flex justify-between items-center">
       <Link to="/">
-        <h1 className="text-xl font-bold">Sports Stop</h1>
+        <img className="w-32 h-18 object-contain" src="/sports-stop-logo.png" />
       </Link>
       <nav>
         <Link className="mx-2" to="/auctions">
@@ -21,7 +21,7 @@ export function Header() {
               Profile
             </Link>
             <a
-              className="bg-black text-white px-4 py-2 rounded"
+              className="bg-orange-300 text-black px-4 py-2 rounded"
               href="https://sports-stop.onrender.com/logout"
             >
               Log out
@@ -29,7 +29,7 @@ export function Header() {
           </>
         ) : (
           <a
-            className="bg-black text-white px-4 py-2 rounded"
+            className="bg-orange-300 text-black px-4 py-2 rounded"
             href="https://sports-stop.onrender.com/login"
           >
             Sign In

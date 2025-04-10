@@ -9,12 +9,12 @@ export function AuctionCreate() {
     condition: "new",
     currentBid: "",
     description: "", // This might come from auth context
-    datePosted: new Date().toISOString().split("T")[0], // e.g., "2025-04-06"
+    datePosted: new Date(),
+    duration: "",
     priceNew: "",
   });
 
   const [images, setImages] = useState([]);
-  console.log(images);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
@@ -33,6 +33,7 @@ export function AuctionCreate() {
       ...form,
       currentBid: Number(form.currentBid),
       priceNew: Number(form.priceNew),
+      duration: Number(form.duration),
       authorId: user.id,
     };
 
@@ -41,9 +42,13 @@ export function AuctionCreate() {
     }
 
     try {
-      const res = await axios.post("https://sports-stop.onrender.com/auctions", auction, {
-        withCredentials: true,
-      });
+      const res = await axios.post(
+        "https://sports-stop.onrender.com/auctions",
+        auction,
+        {
+          withCredentials: true,
+        }
+      );
 
       alert("Auction created successfully!");
     } catch (err) {
@@ -109,6 +114,20 @@ export function AuctionCreate() {
         </div>
 
         <div>
+          <label className="block mb-1 font-semibold">
+            Auction Duration (Hours)
+          </label>
+          <input
+            type="number"
+            name="duration"
+            value={form.duration}
+            onChange={handleChange}
+            className="w-full border px-4 py-2 rounded"
+            required
+          />
+        </div>
+
+        <div>
           <label className="block mb-1 font-semibold">Description</label>
           <textarea
             name="description"
@@ -142,7 +161,7 @@ export function AuctionCreate() {
 
         <button
           type="submit"
-          className="w-full bg-black text-white py-2 rounded hover:bg-gray-800"
+          className="w-full bg-orange-300 text-black py-2 rounded hover:bg-gray-800"
         >
           Create Auction
         </button>

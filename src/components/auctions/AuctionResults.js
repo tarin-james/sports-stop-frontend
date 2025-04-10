@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import { useAuctions } from "./auctionHooks";
+import { FaRegStar, FaStar } from "react-icons/fa"; // for star icons
+import { useAuctions, useFavorites } from "./auctionHooks";
+import { useUser } from "../auth/AuthProvider";
+import { updateUserFavorites } from "./auctionServices";
 
 export function AuctionResults() {
   const [auctions, loading, error] = useAuctions();
@@ -21,8 +24,21 @@ function AuctionList({ initialAuctions }) {
   const [sortOption, setSortOption] = useState("");
   const [conditionFilter, setConditionFilter] = useState("");
   const [filteredItems, setFilteredItems] = useState(initialAuctions);
+  const { user, isLoggedIn } = useUser();
+  const [favorites, setFavorites] = useFavorites(user?.id);
 
-  React.useEffect(() => {
+  // Toggle favorite status
+  const toggleFavorite = (id) => {
+    const newFavorites = favorites.includes(id)
+      ? favorites.filter((favId) => favId !== id)
+      : [...favorites, id];
+    setFavorites(newFavorites);
+    updateUserFavorites(user?.id, newFavorites).catch((err) => {
+      console.log(err);
+    });
+  };
+
+  useEffect(() => {
     let items = [...initialAuctions];
 
     // Filter by search
@@ -94,18 +110,31 @@ function AuctionList({ initialAuctions }) {
       </div>
 
       {filteredItems.map((item) => (
-        <div key={item._id} className="border p-4 my-2">
-          <h3 className="text-xl font-bold">{item.title}</h3>
-          <p className="my-2">Current Bid: ${item.currentBid}</p>
-          <Link
-            to={`/auction/${item._id}`}
-            className="bg-black text-white px-4 py-2 rounded"
-          >
-            Details
-          </Link>
+        <div
+          key={item._id}
+          className="border p-4 my-2 flex justify-between items-center"
+        >
+          <div>
+            <h3 className="text-xl font-bold">{item.title}</h3>
+            <p className="my-2">Current Bid: ${item.currentBid}</p>
+            <Link
+              to={`/auction/${item._id}`}
+              className="bg-orange-300 text-black px-4 py-2 rounded"
+            >
+              Details
+            </Link>
+          </div>
+          {isLoggedIn && (
+            <button
+              onClick={() => toggleFavorite(item._id)}
+              className="text-yellow-500 text-2xl ml-4"
+              title="Toggle Favorite"
+            >
+              {favorites?.includes(item._id) ? <FaStar /> : <FaRegStar />}
+            </button>
+          )}
         </div>
       ))}
     </>
   );
 }
-

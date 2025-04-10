@@ -13,7 +13,7 @@ export function AuctionDetails() {
   const [auction] = useAuction(id, bidUpdated);
   const [bidAmount, setBidAmount] = useState(auction?.currentBid);
   const [commentModalOpen, setCommentModalOpen] = useState(false);
-  const [isExpired, setIsExpired] = useState(true);
+  const [isExpired, setIsExpired] = useState(false);
 
   const { user, isLoggedIn } = useUser();
   const [favorites, setFavorites] = useFavorites(user?.id);

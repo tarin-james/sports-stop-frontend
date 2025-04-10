@@ -65,7 +65,7 @@ export function AuctionDetails() {
         <div className="flex flex-col items-center">
           <div className="w-full h-64 bg-gray-200 flex items-center justify-center rounded-lg">
             {auction.images ? (
-              <img src={auction.images}></img>
+              <img src={auction.images} className="max-h-[250px] max-w-[350px] object-contain" />
             ) : (
               <svg
                 className="w-24 h-24 text-gray-400"

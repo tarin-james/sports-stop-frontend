@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useUser } from "../auth/AuthProvider";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export function AuctionCreate() {
   const { user } = useUser();
@@ -13,6 +14,7 @@ export function AuctionCreate() {
     duration: "",
     priceNew: "",
   });
+  const navigate = useNavigate();
 
   const [images, setImages] = useState([]);
   const handleChange = (e) => {
@@ -50,7 +52,7 @@ export function AuctionCreate() {
         }
       );
 
-      alert("Auction created successfully!");
+      navigate(`/auctions`);
     } catch (err) {
       console.error(err);
       alert("Error submitting auction.");
@@ -161,7 +163,7 @@ export function AuctionCreate() {
 
         <button
           type="submit"
-          className="w-full bg-orange-300 text-black py-2 rounded hover:bg-gray-800"
+          className="w-full bg-orange-300 text-black py-2 rounded hover:bg-orange-400"
         >
           Create Auction
         </button>

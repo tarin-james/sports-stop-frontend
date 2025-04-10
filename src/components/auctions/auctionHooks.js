@@ -96,7 +96,7 @@ export function useFetchedFavorites(userId) {
     if (userId && favoritesList?.length) {
       fetchFavoriteAuctions(favoritesList)
         .then((response) => {
-          setData(response.data);
+          setData(response.data || []);
           setLoading(false)
         })
         .catch((err) => {
